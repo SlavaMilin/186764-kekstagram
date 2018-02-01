@@ -50,7 +50,7 @@ var printTemplate = function (iteration, data) {
 
 var generateGallery = function (obj, data) {
   obj.classList.remove('hidden');
-  obj.querySelector('.gallery-overlay-image').src = data[0].src;
+  obj.querySelector('.gallery-overlay-image').src = data[0].url;
   obj.querySelector('.likes-count').textContent = data[0].likes;
   obj.querySelector('.comments-count').textContent = data[0].comments;
 };
