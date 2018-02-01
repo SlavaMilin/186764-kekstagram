@@ -28,7 +28,7 @@ var addPictureData = function (iteration, text) {
   var pictures = [];
   for (var i = 0; i < iteration; i++) {
     pictures.push({
-      url: 'photos' + (i + 1) + '.jpg',
+      url: 'photos/' + (i + 1) + '.jpg',
       likes: getRandomArrange(15, 185),
       comments: getRandomComment(text)
     });
@@ -42,7 +42,7 @@ var printTemplate = function (iteration, data) {
     var pictureElement = template.cloneNode(true);
     pictureElement.querySelector('img').src = data[i].url;
     pictureElement.querySelector('.picture-likes').textContent = data[i].likes;
-    pictureElement.querySelector('.picture-comments').textContent = data[i].comments;
+    pictureElement.querySelector('.picture-comments').textContent = data[i].comments.length;
     fragment.appendChild(pictureElement);
   }
   pasteInto.appendChild(fragment);
@@ -52,7 +52,7 @@ var generateGallery = function (obj, data) {
   obj.classList.remove('hidden');
   obj.querySelector('.gallery-overlay-image').src = data[0].url;
   obj.querySelector('.likes-count').textContent = data[0].likes;
-  obj.querySelector('.comments-count').textContent = data[0].comments;
+  obj.querySelector('.comments-count').textContent = data[0].comments.length;
 };
 
 var pictureData = addPictureData(PICTURE_ITERATION, COMMENTS);
