@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Slava Milin](https://up.htmlacademy.ru/javascript/12/user/186764).
-* Наставник: `Неизвестно`.
+* Наставник: `Игорь Антонов`.
 
 ---
 
