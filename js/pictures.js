@@ -1,9 +1,9 @@
 'use strict';
 var PICTURE = {
-  ITERATION: 25,
-  DIR: 'photos/',
-  EXTENSION: '.jpg',
-  COMMENTS: [
+  iteration: 25,
+  dir: 'photos/',
+  extension: '.jpg',
+  comments: [
     'Всё отлично!',
     'В целом всё неплохо. Но не всё.',
     'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
@@ -28,7 +28,6 @@ var uploadOverlay = uploadForm.querySelector('.upload-overlay');
 var uploadCansel = uploadForm.querySelector('#upload-cancel');
 var mainFilterImage = uploadForm.querySelector('.effect-image-preview');
 var effectsBtn = uploadForm.querySelectorAll('input[name="effect"]');
-var pinForm = uploadForm.querySelector('.upload-effect-level-pin');
 var btnDec = uploadForm.querySelector('.upload-resize-controls-button-dec');
 var btnInc = uploadForm.querySelector('.upload-resize-controls-button-inc');
 var resizeControl = uploadForm.querySelector('.upload-resize-controls-value');
@@ -50,7 +49,7 @@ var addPictureData = function (count, text) {
   var pictures = [];
   for (var i = 0; i < count; i++) {
     pictures.push({
-      url: PICTURE.DIR + (i + 1) + PICTURE.EXTENSION,
+      url: PICTURE.dir + (i + 1) + PICTURE.extension,
       likes: getRandomArrange(15, 185),
       comments: getRandomComment(text)
     });
@@ -70,13 +69,14 @@ var printTemplate = function (count, data) {
   pasteInto.appendChild(fragment);
 };
 
-var generateGallery = function (obj, data) {
-  var testData = data[0];
-  obj.classList.remove('hidden');
-  obj.querySelector('.gallery-overlay-image').src = testData.url;
-  obj.querySelector('.likes-count').textContent = testData.likes;
-  obj.querySelector('.comments-count').textContent = testData.comments.length;
-};
+// пока не нужна
+// var generateGallery = function (obj, data) {
+//   var testData = data[0];
+//   obj.classList.remove('hidden');
+//   obj.querySelector('.gallery-overlay-image').src = testData.url;
+//   obj.querySelector('.likes-count').textContent = testData.likes;
+//   obj.querySelector('.comments-count').textContent = testData.comments.length;
+// };
 
 var onUploadBtnChange = function () {
   uploadOverlay.classList.remove('hidden');
@@ -150,8 +150,8 @@ effectsBtn.forEach(function (el) {
 });
 
 
-var picturesData = addPictureData(PICTURE.ITERATION, PICTURE.COMMENTS);
-printTemplate(PICTURE.ITERATION, picturesData);
+var picturesData = addPictureData(PICTURE.iteration, PICTURE.comments);
+printTemplate(PICTURE.iteration, picturesData);
 resizeImage();
 openFullSizeImg();
 
