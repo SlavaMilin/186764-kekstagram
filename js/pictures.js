@@ -17,6 +17,8 @@ var RESIZE_STEP = 25;
 var BASIC_SIZE_IMG = '100%';
 var MIN_SIZE_IMG = 25;
 var MAX_SIZE_IMG = 75;
+var HASHTAG_MAX_LENGTH = 20;
+var HASHTAG_MAX_WORD = 5;
 
 var template = document.querySelector('#picture-template').content;
 var pasteInto = document.querySelector('.pictures');
@@ -31,6 +33,7 @@ var effectsBtn = uploadForm.querySelectorAll('input[name="effect"]');
 var btnDec = uploadForm.querySelector('.upload-resize-controls-button-dec');
 var btnInc = uploadForm.querySelector('.upload-resize-controls-button-inc');
 var resizeControl = uploadForm.querySelector('.upload-resize-controls-value');
+var hashtag = uploadForm.querySelector('.upload-form-hashtags');
 
 
 var getRandomArrange = function (min, max) {
@@ -99,6 +102,36 @@ var onGaleryBtnClick = function () {
   galleryClose.removeEventListener('click', onGaleryBtnClick);
 };
 
+var onFormSubmit = function (evt) {
+  hashtag.style.borderColor = 'initial';
+  var validate = validateHashtag(hashtag.value);
+  if (!validate) {
+    evt.preventDefault();
+    hashtag.style.borderColor = 'red';
+  } else {
+    uploadForm.reset();
+  }
+};
+
+var validateHashtag = function (data) {
+  if (data === '') {
+    return true;
+  }
+  var array = data.toLowerCase().split(' ');
+  var result = true;
+  array.forEach(function (el, index, arr) {
+    if (el[0] !== '#' || el.lenhth > HASHTAG_MAX_LENGTH || array.length > HASHTAG_MAX_WORD) {
+      result = false;
+    }
+    arr.splice(index, 1);
+    var repeat = arr.includes(index);
+    if (repeat) {
+      result = false;
+    }
+  });
+  return result;
+};
+
 var resizeImage = function () {
   resizeControl.value = BASIC_SIZE_IMG;
 
@@ -115,8 +148,8 @@ var resizeImage = function () {
 
   var changeImgSize = function (size) {
     size = parseInt(size, 10) / 100;
-    var value = 'transform: scale(' + size + ');';
-    mainFilterImage.setAttribute('Style', value);
+    var value = 'scale(' + size + ')';
+    mainFilterImage.style.transform = value;
   };
 
   btnDec.addEventListener('click', function () {
@@ -143,6 +176,7 @@ var openFullSizeImg = function () {
   });
 };
 
+uploadForm.addEventListener('submit', onFormSubmit);
 uploadInput.addEventListener('change', onUploadBtnChange);
 uploadCansel.addEventListener('click', onUploadCanselClick);
 effectsBtn.forEach(function (el) {
