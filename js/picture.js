@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var PICTURE = {
+  window.PICTURE = {
     iteration: 25,
     dir: 'photos/',
     extension: '.jpg',
@@ -15,28 +15,12 @@
     ]
   };
 
-  var getRandomArrange = function (min, max) {
-    return Math.round(Math.random() * (max - min) + min);
-  };
-
-  var getRandomComment = function (data) {
-    var result = [];
-    for (var i = 0; i < getRandomArrange(1, 2); i++) {
-      result.push(data.pop([getRandomArrange(0, data.length - 1)]));
-    }
-    return result;
-  };
-
-  var addPictureData = function (count, text) {
-    var pictures = [];
-    for (var i = 0; i < count; i++) {
-      pictures.push({
-        url: PICTURE.dir + (i + 1) + PICTURE.extension,
-        likes: getRandomArrange(15, 185),
-        comments: getRandomComment(text)
-      });
-    }
-    return pictures;
-  };
-  window.picturesData = addPictureData(PICTURE.iteration, PICTURE.comments);
+  // пока не нужна
+  // var generateGallery = function (obj, data) {
+  //   var testData = data[0];
+  //   obj.classList.remove('hidden');
+  //   obj.querySelector('.gallery-overlay-image').src = testData.url;
+  //   obj.querySelector('.likes-count').textContent = testData.likes;
+  //   obj.querySelector('.comments-count').textContent = testData.comments.length;
+  // };
 })();
