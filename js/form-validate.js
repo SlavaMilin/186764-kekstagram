@@ -18,7 +18,7 @@
         result = false;
       }
       arr.splice(index, 1);
-      var repeat = arr.includes(index);
+      var repeat = arr.indexOf(el) !== -1;
       if (repeat) {
         result = false;
       }
@@ -31,8 +31,6 @@
     if (!validate) {
       evt.preventDefault();
       hashtag.style.borderColor = 'red';
-    } else {
-      uploadForm.reset();
     }
   };
   uploadForm.addEventListener('submit', onFormSubmit);
