@@ -8,13 +8,15 @@
 
   var onUploadBtnChange = function () {
     uploadOverlay.classList.remove('hidden');
-    uploadInput.removeEventListener('change', onUploadBtnChange);
     window.addEventListener('keydown', onFormEscPress);
+    uploadInput.removeEventListener('change', onUploadBtnChange);
   };
 
   var onFormEscPress = function (evt) {
     if (evt.keyCode === window.CONSTANS.ESC_KEYCODE) {
+      uploadForm.reset();
       uploadOverlay.classList.add('hidden');
+      uploadInput.addEventListener('change', onUploadBtnChange);
       window.removeEventListener('keydown', onFormEscPress);
     }
   };
