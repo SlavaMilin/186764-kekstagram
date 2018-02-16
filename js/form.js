@@ -14,6 +14,7 @@
   var onUploadCanselClick = function () {
     uploadForm.reset();
     uploadOverlay.classList.add('hidden');
+    uploadInput.addEventListener('change', onUploadBtnChange);
     uploadCansel.removeEventListener('click', onUploadCanselClick);
   };
 

@@ -12,36 +12,34 @@
   var btnInc = uploadForm.querySelector('.upload-resize-controls-button-inc');
   var mainFilterImage = uploadForm.querySelector('.effect-image-preview');
 
+  var countPercentSize = function (value, operator) {
+    value = parseInt(value, 10);
+    if (operator && value <= MAX_SIZE_IMG) {
+      return value + RESIZE_STEP + '%';
+    }
+    if (!operator && value > MIN_SIZE_IMG) {
+      return value - RESIZE_STEP + '%';
+    }
+    return value + '%';
+  };
+
+  var changeImgSize = function (size) {
+    size = parseInt(size, 10) / 100;
+    var value = 'scale(' + size + ')';
+    mainFilterImage.style.transform = value;
+  };
+
+  var onBtnSizeClick = function (evt) {
+    var isDec = evt.target.classList.contains('upload-resize-controls-button-dec');
+    var setValue = isDec ? countPercentSize(resizeControl.value, false) : countPercentSize(resizeControl.value, true);
+    resizeControl.value = setValue;
+    changeImgSize(setValue);
+  };
+
   var resizeImage = function () {
     resizeControl.value = BASIC_SIZE_IMG;
-
-    var countPercentSize = function (value, operator) {
-      value = parseInt(value, 10);
-      if (operator && value <= MAX_SIZE_IMG) {
-        return value + RESIZE_STEP + '%';
-      }
-      if (!operator && value > MIN_SIZE_IMG) {
-        return value - RESIZE_STEP + '%';
-      }
-      return value + '%';
-    };
-
-    var changeImgSize = function (size) {
-      size = parseInt(size, 10) / 100;
-      var value = 'scale(' + size + ')';
-      mainFilterImage.style.transform = value;
-    };
-
-    btnDec.addEventListener('click', function () {
-      var setValue = countPercentSize(resizeControl.value, false);
-      resizeControl.value = setValue;
-      changeImgSize(setValue);
-    });
-    btnInc.addEventListener('click', function () {
-      var setValue = countPercentSize(resizeControl.value, true);
-      resizeControl.value = setValue;
-      changeImgSize(setValue);
-    });
+    btnDec.addEventListener('click', onBtnSizeClick);
+    btnInc.addEventListener('click', onBtnSizeClick);
   };
   resizeImage();
 })();
