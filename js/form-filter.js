@@ -89,6 +89,6 @@
   pinLine.addEventListener('click', onLineClick);
 
   for (var i = 0; i < effectsBtn.length; i++) {
-    i.addEventListener('click', onFilterImgClick);
+    effectsBtn[i].addEventListener('click', onFilterImgClick);
   }
 })();
