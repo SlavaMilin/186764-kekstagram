@@ -32,6 +32,18 @@
     }
   };
 
+  var setPinPosition = function (x) {
+    var pinLineWidth = pinLine.offsetWidth;
+    var percent = (x / pinLineWidth) * 100;
+    var currentFilter = mainFilterImage.classList.item(0).replace('effect-', '');
+    if (percent > 0 && percent < 100) {
+      pin.style.left = percent + '%';
+      uploadEffectLine.style.width = percent + '%';
+      uploadEffectValue.value = percent;
+      mainFilterImage.style.filter = filters[currentFilter](percent);
+    }
+  };
+
   var onFilterImgClick = function (evt) {
     if (evt.target.value === 'none') {
       slider.classList.add('hidden');
@@ -41,6 +53,12 @@
     mainFilterImage.style.filter = '';
     mainFilterImage.className = EFFECT_PREFIX + evt.target.value;
     mainFilterImage.classList.add('effect-image-preview');
+    pin.style.left = 100 + '%';
+    uploadEffectLine.style.width = 100 + '%';
+  };
+
+  var onLineClick = function (clickEvt) {
+    setPinPosition(clickEvt.offsetX);
   };
 
   pin.addEventListener('mousedown', function (evt) {
@@ -49,16 +67,8 @@
     var onMouseMove = function (moveEvt) {
       var shiftX = startX - moveEvt.clientX;
       startX = moveEvt.clientX;
-      var pinLineWidth = pinLine.offsetWidth;
-      var pinOffsetLeft = pin.offsetLeft;
-      var percentShift = ((pinOffsetLeft - shiftX) / pinLineWidth) * 100;
-      var currentFilter = mainFilterImage.classList.item(0).replace('effect-', '');
-      if (percentShift > 0 && percentShift < 100) {
-        pin.style.left = percentShift + '%';
-        uploadEffectLine.style.width = percentShift + '%';
-        uploadEffectValue.value = percentShift;
-        mainFilterImage.style.filter = filters[currentFilter](percentShift);
-      }
+      var xPosition = (pin.offsetLeft - shiftX);
+      setPinPosition(xPosition);
     };
 
     var onMouseUp = function (upEvt) {
@@ -70,6 +80,8 @@
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   });
+
+  pinLine.addEventListener('click', onLineClick);
 
   effectsBtn.forEach(function (el) {
     el.addEventListener('click', onFilterImgClick);
