@@ -44,12 +44,17 @@
     }
   };
 
-  var onFilterImgClick = function (evt) {
-    if (evt.target.value === 'none') {
+  var sliderToggler = function (status) {
+    if (status) {
       slider.classList.add('hidden');
     } else {
       slider.classList.remove('hidden');
     }
+  };
+
+  var onFilterImgClick = function (evt) {
+    var imgValue = evt.target.value === 'none';
+    sliderToggler(imgValue);
     mainFilterImage.style.filter = '';
     mainFilterImage.className = EFFECT_PREFIX + evt.target.value;
     mainFilterImage.classList.add('effect-image-preview');
