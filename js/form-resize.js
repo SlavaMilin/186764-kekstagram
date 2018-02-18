@@ -29,9 +29,13 @@
     mainFilterImage.style.transform = value;
   };
 
+  var getSize = function (size, status) {
+    return countPercentSize(size, !status);
+  };
+
   var onBtnSizeClick = function (evt) {
-    var isDec = evt.target.classList.contains('upload-resize-controls-button-dec');
-    var setValue = isDec ? countPercentSize(resizeControl.value, false) : countPercentSize(resizeControl.value, true);
+    var typeBtn = evt.target.classList.contains('upload-resize-controls-button-dec');
+    var setValue = getSize(resizeControl.value, typeBtn);
     resizeControl.value = setValue;
     changeImgSize(setValue);
   };
