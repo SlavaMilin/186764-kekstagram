@@ -39,7 +39,7 @@
     if (percent > 0 && percent < 100) {
       pin.style.left = percent + '%';
       uploadEffectLine.style.width = percent + '%';
-      uploadEffectValue.value = percent;
+      uploadEffectValue.setAttribute('value', percent);
       mainFilterImage.style.filter = filters[currentFilter](percent);
     }
   };
