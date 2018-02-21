@@ -5,6 +5,7 @@
   var HASH_REG_EXP = /#[\wа-я]{1,20}/i;
 
   var uploadForm = document.querySelector('.upload-form');
+  var uploadOverlay = uploadForm.querySelector('.upload-overlay');
   var hashtag = uploadForm.querySelector('.upload-form-hashtags');
 
   var isRepeat = function (arr) {
@@ -44,8 +45,11 @@
     hashtag.style.borderColor = 'initial';
     var validate = validateHashtag(hashtag.value);
     if (!validate) {
-      evt.preventDefault();
       hashtag.style.borderColor = 'red';
+    } else {
+      window.backend.upload(new FormData(uploadForm), function () {
+        uploadOverlay.classList.add('hidden');
+      });
     }
   };
   uploadForm.addEventListener('submit', onFormSubmit);

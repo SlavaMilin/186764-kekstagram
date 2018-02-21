@@ -2,6 +2,7 @@
 
 (function () {
   var gallery = document.querySelector('.gallery-overlay');
+  var galleryImage = gallery.querySelector('.gallery-overlay-image');
   var galleryClose = document.querySelector('.gallery-overlay-close');
 
   var onGaleryBtnClick = function () {
@@ -16,17 +17,21 @@
     }
   };
 
-  var openFullSizeImg = function () {
+  window.preview = function (data) {
     var images = document.querySelectorAll('.picture');
-    images.forEach(function (el) {
-      el.addEventListener('click', function (evt) {
+
+    for (var i = 0; i < images.length; i++) {
+      images[i].dataset.index = i;
+      images[i].addEventListener('click', function (evt) {
+        var index = evt.currentTarget.dataset.index;
         evt.preventDefault();
         document.addEventListener('keydown', onImgEscPress);
         gallery.classList.remove('hidden');
-        gallery.querySelector('.gallery-overlay-image').src = evt.target.src;
         galleryClose.addEventListener('click', onGaleryBtnClick);
+        galleryImage.src = evt.target.src;
+        gallery.querySelector('.likes-count').textContent = data[index].likes;
+        gallery.querySelector('.comments-count').textContent = data[index].comments.length;
       });
-    });
+    }
   };
-  openFullSizeImg();
 })();
