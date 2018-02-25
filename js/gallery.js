@@ -6,44 +6,45 @@
 
   var pictures = [];
 
-  var sortTypes = {
-    'filter-recommend': function () {
-      return pictures;
-    },
-    'filter-popular': function (data) {
-      data.sort(function (a, b) {
-        if (a.likes < b.likes) {
-          return 1;
-        } else if (a.likes > b.likes) {
-          return -1;
-        } else {
-          return a.comments.length - b.comments.length;
-        }
-      });
-      return data;
-    },
-    'filter-discussed': function (data) {
-      data.sort(function (a, b) {
-        if (a.comments.length < b.comments.length) {
-          return 1;
-        } else if (a.comments.length > b.comments.length) {
-          return -1;
-        } else {
-          return a.likes - b.likes;
-        }
-      });
-      return data;
-    },
-    'filter-random': function (data) {
-      var result = [];
-      var i;
-      var n = data.length;
-
-      while (n) {
-        i = Math.floor(Math.random() * n--);
-        result.push(data.splice(i, 1)[0]);
-      }
-      return result;
+  var sortTypes = function (type, data) {
+    switch (type) {
+      case 'filter-popular':
+        return function () {
+          data.sort(function (a, b) {
+            if (a.likes < b.likes) {
+              return 1;
+            } else if (a.likes > b.likes) {
+              return -1;
+            } else {
+              return a.comments.length - b.comments.length;
+            }
+          });
+          return data;
+        };
+      case 'filter-discussed':
+        return function () {
+          data.sort(function (a, b) {
+            if (a.comments.length < b.comments.length) {
+              return 1;
+            } else if (a.comments.length > b.comments.length) {
+              return -1;
+            } else {
+              return a.likes - b.likes;
+            }
+          });
+          return data;
+        };
+      case 'filter-random':
+        return function () {
+          for (var i = data.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var temp = data;
+            data[j] = temp;
+          }
+          return data;
+        };
+      default:
+        return pictures;
     }
   };
 
@@ -51,7 +52,7 @@
     var picturesNode = document.querySelectorAll('.picture');
     var copyData = pictures.slice(0);
     var type = evt.target.id;
-    copyData = sortTypes[type](copyData);
+    copyData = sortTypes(type, copyData);
     window.debounce(function () {
       for (var i = 0; i < picturesNode.length; i++) {
         picturesNode[i].remove();
