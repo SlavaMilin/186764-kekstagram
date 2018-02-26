@@ -48,16 +48,16 @@
     var copyData = pictures.slice(0);
     var type = evt.target.id;
     copyData = sortTypes(type, copyData);
+    for (var i = 0; i < picturesNode.length; i++) {
+      picturesNode[i].remove();
+    }
     window.debounce(function () {
-      for (var i = 0; i < picturesNode.length; i++) {
-        picturesNode[i].remove();
-      }
       window.render(copyData, window.CONSTANS.pictureIteration);
       window.preview(copyData);
     });
   };
 
-  var successHandler = function (data) {
+  var onSuccess = function (data) {
     pictures = data;
     if (filters.classList.contains('filters-inactive')) {
       filters.classList.remove('filters-inactive');
@@ -66,7 +66,7 @@
     window.preview(data);
   };
 
-  var errorHandler = function (message) {
+  var onError = function (message) {
     var node = document.createElement('div');
     node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
     node.style.position = 'absolute';
@@ -82,6 +82,6 @@
     filtersBtn[i].addEventListener('click', onBtnSortClick);
   }
 
-  window.backend.load(successHandler, errorHandler);
+  window.backend.load(onSuccess, onError);
 
 })();

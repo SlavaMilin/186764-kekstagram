@@ -2,7 +2,7 @@
 
 (function () {
   window.CONSTANS = {
-    ESC_KEYCODE: 27,
+    escKeycode: 27,
     pictureIteration: 26
   };
 })();
