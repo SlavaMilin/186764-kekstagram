@@ -7,7 +7,6 @@
   var uploadCansel = uploadForm.querySelector('#upload-cancel');
   var uploadInput = uploadForm.querySelector('#upload-file');
   var mainPucture = uploadForm.querySelector('.effect-image-preview');
-  var smallPictures = uploadForm.querySelectorAll('.upload-effect-preview');
 
   var onUploadBtnChange = function () {
     var errorNode = document.querySelector('.render-error');
@@ -17,25 +16,20 @@
     if (errorNode) {
       errorNode.remove();
     }
-    if (!regExp.test(img.type)) {
-      window.functions.sendError('Выбран не верный формат изображения, повторите попытку');
-      return;
-    }
+    // if (!regExp.test(img.type)) {
+    //   window.functions.sendError('Выбран не верный формат изображения, повторите попытку');
+    //   return;
+    // }
 
     var reader = new FileReader();
     reader.addEventListener('load', function () {
       mainPucture.src = reader.result;
-      for (var i = 0; i < smallPictures.length; i++) {
-        smallPictures[i].style.backgroundImage = 'url("' + reader.result + '");';
-      }
     });
     reader.readAsDataURL(img);
 
     uploadOverlay.classList.remove('hidden');
     window.addEventListener('keydown', onFormEscPress);
     uploadInput.removeEventListener('change', onUploadBtnChange);
-
-
   };
 
   var onFormEscPress = function (evt) {
