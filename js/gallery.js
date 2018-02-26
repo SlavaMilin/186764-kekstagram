@@ -6,46 +6,41 @@
 
   var pictures = [];
 
-  var sortTypes = function (type, data) {
-    switch (type) {
-      case 'filter-popular':
-        return function () {
-          data.sort(function (a, b) {
-            if (a.likes < b.likes) {
-              return 1;
-            } else if (a.likes > b.likes) {
-              return -1;
-            } else {
-              return a.comments.length - b.comments.length;
-            }
-          });
-          return data;
-        };
-      case 'filter-discussed':
-        return function () {
-          data.sort(function (a, b) {
-            if (a.comments.length < b.comments.length) {
-              return 1;
-            } else if (a.comments.length > b.comments.length) {
-              return -1;
-            } else {
-              return a.likes - b.likes;
-            }
-          });
-          return data;
-        };
-      case 'filter-random':
-        return function () {
-          for (var i = data.length - 1; i > 0; i--) {
-            var j = Math.floor(Math.random() * (i + 1));
-            var temp = data;
-            data[j] = temp;
-          }
-          return data;
-        };
-      default:
-        return pictures;
+  var shuffle = function (array) {
+    for (var i = array.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
     }
+    return array;
+  };
+
+  var sortTypes = function (type, data) {
+    if (type === 'filter-popular') {
+      return data.sort(function (a, b) {
+        if (a.likes < b.likes) {
+          return 1;
+        } else if (a.likes > b.likes) {
+          return -1;
+        } else {
+          return a.comments.length - b.comments.length;
+        }
+      });
+    } else if (type === 'filter-discussed') {
+      return data.sort(function (a, b) {
+        if (a.comments.length < b.comments.length) {
+          return 1;
+        } else if (a.comments.length > b.comments.length) {
+          return -1;
+        } else {
+          return a.likes - b.likes;
+        }
+      });
+    } else if (type === 'filter-random') {
+      return shuffle(data);
+    }
+    return pictures;
   };
 
   var onBtnSortClick = function (evt) {
