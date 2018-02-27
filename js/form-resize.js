@@ -2,7 +2,6 @@
 
 (function () {
   var RESIZE_STEP = 25;
-  var BASIC_SIZE_IMG = '100%';
   var MIN_SIZE_IMG = 25;
   var MAX_SIZE_IMG = 75;
 
@@ -41,7 +40,6 @@
   };
 
   var resizeImage = function () {
-    resizeControl.value = BASIC_SIZE_IMG;
     btnDec.addEventListener('click', onBtnSizeClick);
     btnInc.addEventListener('click', onBtnSizeClick);
   };

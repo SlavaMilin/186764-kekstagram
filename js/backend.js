@@ -3,48 +3,54 @@
 (function () {
   var GET_TIMEOUT = 10000;
   var DATA_TYPE = 'json';
-  var SUCCESS_CODE = 200;
   var URL_LOAD = 'https://js.dump.academy/kekstagram/data';
   var URL_UPLOAD = 'https://js.dump.academy/kekstagram';
-  var ERRORS_CODE = {
-    400: 'Неверный запрос',
-    401: 'Пользователь не авторизован',
-    404: 'Ничего не найдено'
-  };
 
-  var load = function (onLoad, onError) {
+  var setup = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
-    xhr.responseType = DATA_TYPE;
-    xhr.open('GET', URL_LOAD);
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === SUCCESS_CODE) {
-        onLoad(xhr.response);
-      } else {
-        onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
+      switch (xhr.status) {
+        case 200:
+          onLoad(xhr.response);
+          break;
+        case 400:
+          onError('Неверный запрос');
+          break;
+        case 401:
+          onError('Пользователь не авторизован');
+          break;
+        case 404:
+          onError('Ничего не найдено');
+          break;
+        default:
+          onError('Произошла ошибка');
+          break;
       }
     });
 
     xhr.addEventListener('error', function () {
-      var error = ERRORS_CODE.xhr.status;
-      onError(error ? error : 'Произошла ошибка соединения');
+      onError(xhr.status);
     });
 
     xhr.addEventListener('timeout', function () {
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
 
+    return xhr;
+  };
+
+  var load = function (onLoad, onError) {
+    var xhr = setup(onLoad, onError);
+    xhr.responseType = DATA_TYPE;
+    xhr.open('GET', URL_LOAD);
     xhr.timeout = GET_TIMEOUT;
     xhr.send();
   };
 
-  var upload = function (data, onSuccess) {
-    var xhr = new XMLHttpRequest();
+  var upload = function (data, onSuccess, onError) {
+    var xhr = setup(onSuccess, onError);
     xhr.responseType = DATA_TYPE;
-
-    xhr.addEventListener('load', function () {
-      onSuccess(xhr.response);
-    });
 
     xhr.open('POST', URL_UPLOAD);
     xhr.send(data);

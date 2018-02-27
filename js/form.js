@@ -7,19 +7,20 @@
   var uploadCansel = uploadForm.querySelector('#upload-cancel');
   var uploadInput = uploadForm.querySelector('#upload-file');
   var mainPucture = uploadForm.querySelector('.effect-image-preview');
+  var resizeControl = uploadForm.querySelector('.upload-resize-controls-value');
 
   var onUploadBtnChange = function () {
     var errorNode = document.querySelector('.render-error');
 
     var img = uploadInput.files[0];
-    var regExp = new RegExp('^image/(' + Object.keys(FILE_TYPES).join('|').replace('\+', '\\+') + ')$', 'i');
+    var regExp = new RegExp('^image/(' + FILE_TYPES.join('|').replace('\+', '\\+') + ')$', 'i');
     if (errorNode) {
       errorNode.remove();
     }
-    // if (!regExp.test(img.type)) {
-    //   window.functions.sendError('Выбран не верный формат изображения, повторите попытку');
-    //   return;
-    // }
+    if (!regExp.test(img.type)) {
+      window.functions.sendError('Выбран не верный формат изображения, пожалуйста, повторите попытку');
+      return;
+    }
 
     var reader = new FileReader();
     reader.addEventListener('load', function () {
@@ -29,11 +30,11 @@
 
     uploadOverlay.classList.remove('hidden');
     window.addEventListener('keydown', onFormEscPress);
-    uploadInput.removeEventListener('change', onUploadBtnChange);
+    resizeControl.value = window.CONSTANTS.basicSizeImg;
   };
 
   var onFormEscPress = function (evt) {
-    if (evt.keyCode === window.CONSTANS.ESC_KEYCODE) {
+    if (evt.keyCode === window.CONSTANTS.escKeycode) {
       uploadForm.reset();
       uploadOverlay.classList.add('hidden');
       uploadInput.addEventListener('change', onUploadBtnChange);

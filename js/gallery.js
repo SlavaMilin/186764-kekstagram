@@ -52,7 +52,7 @@
       picturesNode[i].remove();
     }
     window.debounce(function () {
-      window.render(copyData, window.CONSTANS.pictureIteration);
+      window.render(copyData, window.CONSTANTS.pictureIteration);
       window.preview(copyData);
     });
   };
@@ -62,7 +62,7 @@
     if (filters.classList.contains('filters-inactive')) {
       filters.classList.remove('filters-inactive');
     }
-    window.render(data, window.CONSTANS.pictureIteration);
+    window.render(data, window.CONSTANTS.pictureIteration);
     window.preview(data);
   };
 

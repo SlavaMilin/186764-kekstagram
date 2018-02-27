@@ -1,8 +1,9 @@
 'use strict';
 
 (function () {
-  window.CONSTANS = {
+  window.CONSTANTS = {
     escKeycode: 27,
-    pictureIteration: 26
+    pictureIteration: 26,
+    basicSizeImg: '100%',
   };
 })();
