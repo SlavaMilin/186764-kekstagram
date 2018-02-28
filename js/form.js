@@ -9,11 +9,12 @@
   var mainPucture = uploadForm.querySelector('.effect-image-preview');
   var resizeControl = uploadForm.querySelector('.upload-resize-controls-value');
   var descrtiption = uploadForm.querySelector('.upload-form-description');
+  var numberOfPictures = 0;
 
   var onUploadBtnChange = function () {
     var errorNode = document.querySelector('.render-error');
 
-    var img = uploadInput.files[0];
+    var img = uploadInput.files[numberOfPictures];
     var regExp = new RegExp('^image/(' + FILE_TYPES.join('|').replace('\+', '\\+') + ')$', 'i');
     if (errorNode) {
       errorNode.remove();

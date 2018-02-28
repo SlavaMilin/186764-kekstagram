@@ -4,15 +4,15 @@
   var template = document.querySelector('#picture-template').content;
   var pasteInto = document.querySelector('.pictures');
 
-  window.render = function (data, count) {
+  window.render = function (data) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < count; i++) {
+    data.forEach(function (el) {
       var pictureElement = template.cloneNode(true);
-      pictureElement.querySelector('img').src = data[i].url;
-      pictureElement.querySelector('.picture-likes').textContent = data[i].likes;
-      pictureElement.querySelector('.picture-comments').textContent = data[i].comments.length;
+      pictureElement.querySelector('img').src = el.url;
+      pictureElement.querySelector('.picture-likes').textContent = el.likes;
+      pictureElement.querySelector('.picture-comments').textContent = el.comments.length;
       fragment.appendChild(pictureElement);
-    }
+    });
     pasteInto.appendChild(fragment);
   };
 })();

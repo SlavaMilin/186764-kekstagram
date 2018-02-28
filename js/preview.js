@@ -11,7 +11,7 @@
   };
 
   var onImgEscPress = function (evt) {
-    if (evt.keyCode === window.CONSTANS.escKeycode) {
+    if (evt.keyCode === window.CONSTANTS.escKeycode) {
       gallery.classList.add('hidden');
       window.removeEventListener('keydown', onImgEscPress);
     }

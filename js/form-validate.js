@@ -1,13 +1,18 @@
 'use strict';
 
 (function () {
+
   var HASHTAG_MAX_WORD = 5;
   var HASHTAG_MAX_SYMBOLS = 20;
   var HASH_REG_EXP = /#[\wа-я]{1,20}/i;
 
+  var SPACE_SYMBOL = ' ';
+
   var uploadForm = document.querySelector('.upload-form');
+  var submitBtn = uploadForm.querySelector('#upload-submit');
+
   var uploadOverlay = uploadForm.querySelector('.upload-overlay');
-  var hashTagField = uploadForm.querySelector('.upload-form-hashtags');
+  var hashtagField = uploadForm.querySelector('.upload-form-hashtags');
 
   var HashTagsValidationErrors = {
     'incorrect': 'Хеш тег некорректен. Должен начинаться с #, а послне ее должно быть слово.',
@@ -20,72 +25,81 @@
     element.style.border = !status ? '2px solid red' : 'initial';
   };
 
+  var isValidHashTag = function (hashTag) {
+    return HASH_REG_EXP.test(hashTag);
+  };
+
   var isRepeat = function (arr) {
     return !arr.every(function (val) {
       return arr.indexOf(val) === arr.lastIndexOf(val);
     });
   };
 
-  var isValidHashTag = function (val) {
-    return HASH_REG_EXP.test(val);
-  };
+  var runValidateHash = function (hashTag) {
+    hashTag = hashTag.toLowerCase();
 
-  var runValidateHashtag = function (hashTag) {
-    hashTagField.setCustomValidity('');
     if (!isValidHashTag(hashTag)) {
-      hashTagField.setCustomValidity(HashTagsValidationErrors.incorrect);
+      hashtagField.setCustomValidity(HashTagsValidationErrors.incorrect);
       return false;
     }
 
     if (hashTag.length > HASHTAG_MAX_SYMBOLS) {
-      hashTagField.setCustomValidity(HashTagsValidationErrors.tooLong);
+      hashtagField.setCustomValidity(HashTagsValidationErrors.tooLong);
       return false;
     }
 
     return true;
   };
 
-  var setValidateHashField = function (hashTags) {
-    hashTagField.setCustomValidity('');
-    hashTags = hashTags.trim();
+  var setValidateHashField = function () {
+    var allTags = hashtagField.value.trim();
 
-    if (!hashTags) {
+    if (!allTags) {
+      hashtagField.setCustomValidity('');
       return true;
     }
 
-    var hashTagArr = hashTags.split(' ');
+    var hashTagArr = allTags.split(SPACE_SYMBOL);
 
-    if (!hashTagArr.every(runValidateHashtag)) {
+    if (!hashTagArr.every(runValidateHash)) {
       return false;
     }
 
     if (hashTagArr.length > HASHTAG_MAX_WORD) {
-      hashTagField.setCustomValidity(HashTagsValidationErrors.maxTags);
+      hashtagField.setCustomValidity(HashTagsValidationErrors.maxTags);
       return false;
     }
 
     if (isRepeat(hashTagArr)) {
-      hashTagField.setCustomValidity(HashTagsValidationErrors.duplicates);
+      hashtagField.setCustomValidity(HashTagsValidationErrors.duplicates);
       return false;
     }
 
+    hashtagField.setCustomValidity('');
     return true;
   };
+
+  var onError = window.functions.sendError;
 
   var onSuccess = function () {
     uploadOverlay.classList.add('hidden');
   };
 
-  var onError = window.functions.sendError;
-
+  var bind = function () {
+    submitBtn.addEventListener('click', onFormSubmit);
+  };
   var onFormSubmit = function (evt) {
-    evt.preventDefault();
-    hashTagField.setCustomValidity('');
-    var validate = setValidateHashField(hashTagField.value);
-    setValidStatusToField(hashTagField, validate);
+
+    var validate = setValidateHashField();
+    setValidStatusToField(hashtagField, validate);
+
     if (validate) {
+      evt.preventDefault();
       window.backend.upload(new FormData(uploadForm), onSuccess, onError);
+      uploadForm.reset();
     }
   };
-  uploadForm.addEventListener('submit', onFormSubmit);
+
+  bind();
+
 })();

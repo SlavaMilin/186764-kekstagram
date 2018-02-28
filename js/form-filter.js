@@ -11,6 +11,7 @@
   var pinLine = uploadForm.querySelector('.upload-effect-level-line');
   var uploadEffectLine = uploadForm.querySelector('.upload-effect-level-val');
   var uploadEffectValue = uploadForm.querySelector('.upload-effect-level-value');
+  var numberOfFilters = effectsBtn.length;
 
   slider.classList.add('hidden');
 
@@ -84,7 +85,7 @@
 
   pinLine.addEventListener('click', onLineClick);
 
-  for (var i = 0; i < effectsBtn.length; i++) {
+  for (var i = 0; i < numberOfFilters; i++) {
     effectsBtn[i].addEventListener('click', onFilterImgClick);
   }
 })();

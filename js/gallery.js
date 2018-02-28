@@ -3,11 +3,13 @@
 (function () {
   var filters = document.querySelector('.filters');
   var filtersBtn = filters.querySelectorAll('.filters-radio');
+  var numberOfSortBtn = filtersBtn.length;
 
   var pictures = [];
 
   var shuffle = function (array) {
-    for (var i = array.length - 1; i > 0; i--) {
+    var arrayLength = array.length - 1;
+    for (var i = arrayLength - 1; i > 0; i--) {
       var j = Math.floor(Math.random() * (i + 1));
       var temp = array[i];
       array[i] = array[j];
@@ -52,7 +54,7 @@
       picturesNode[i].remove();
     }
     window.debounce(function () {
-      window.render(copyData, window.CONSTANTS.pictureIteration);
+      window.render(copyData);
       window.preview(copyData);
     });
   };
@@ -62,13 +64,13 @@
     if (filters.classList.contains('filters-inactive')) {
       filters.classList.remove('filters-inactive');
     }
-    window.render(data, window.CONSTANTS.pictureIteration);
+    window.render(data);
     window.preview(data);
   };
 
   var onError = window.functions.sendError;
 
-  for (var i = 0; i < filtersBtn.length; i++) {
+  for (var i = 0; i < numberOfSortBtn; i++) {
     filtersBtn[i].addEventListener('click', onBtnSortClick);
   }
 
