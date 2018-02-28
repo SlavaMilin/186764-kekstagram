@@ -8,6 +8,7 @@
   var uploadInput = uploadForm.querySelector('#upload-file');
   var mainPucture = uploadForm.querySelector('.effect-image-preview');
   var resizeControl = uploadForm.querySelector('.upload-resize-controls-value');
+  var descrtiption = uploadForm.querySelector('.upload-form-description');
 
   var onUploadBtnChange = function () {
     var errorNode = document.querySelector('.render-error');
@@ -49,7 +50,17 @@
     uploadCansel.removeEventListener('click', onUploadCanselClick);
   };
 
+  var onDescriptionFocus = function () {
+    window.removeEventListener('keydown', onFormEscPress);
+    descrtiption.addEventListener('focusout', onDescriptionFucusOut);
+  };
+
+  var onDescriptionFucusOut = function () {
+    window.addEventListener('keydown', onFormEscPress);
+  };
+
   uploadInput.addEventListener('change', onUploadBtnChange);
   uploadCansel.addEventListener('click', onUploadCanselClick);
+  descrtiption.addEventListener('focus', onDescriptionFocus);
 })();
 

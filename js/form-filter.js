@@ -33,8 +33,8 @@
   };
 
   var setPinPosition = function (x) {
-    var pinLineWidth = pinLine.offsetWidth;
-    var percent = (x / pinLineWidth) * 100;
+    var rect = pinLine.getBoundingClientRect();
+    var percent = ((x - rect.x) / rect.width) * 100;
     var currentFilter = mainFilterImage.classList.item(0).replace('effect-', '');
     if (percent > 0 && percent < 100) {
       pin.style.left = percent + '%';
@@ -63,27 +63,23 @@
   };
 
   var onLineClick = function (clickEvt) {
-    setPinPosition(clickEvt.offsetX);
+    setPinPosition(clickEvt.clientX);
   };
 
-  pin.addEventListener('mousedown', function (evt) {
-    var startX = evt.clientX;
+  pin.addEventListener('mousedown', function () {
 
     var onMouseMove = function (moveEvt) {
-      var shiftX = startX - moveEvt.clientX;
-      startX = moveEvt.clientX;
-      var xPosition = (pin.offsetLeft - shiftX);
-      setPinPosition(xPosition);
+      setPinPosition(moveEvt.clientX);
     };
 
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseup', onMouseUp);
     };
 
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseup', onMouseUp);
   });
 
   pinLine.addEventListener('click', onLineClick);
