@@ -32,6 +32,8 @@
 
     uploadOverlay.classList.remove('hidden');
     window.addEventListener('keydown', onFormEscPress);
+    uploadCansel.addEventListener('click', onUploadCanselClick);
+    mainPucture.style.transform = '';
     resizeControl.value = window.CONSTANTS.basicSizeImg;
   };
 

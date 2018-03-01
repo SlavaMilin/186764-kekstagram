@@ -28,7 +28,7 @@
         document.addEventListener('keydown', onImgEscPress);
         gallery.classList.remove('hidden');
         galleryClose.addEventListener('click', onGaleryBtnClick);
-        galleryImage.src = evt.target.src;
+        galleryImage.src = data[index].url;
         gallery.querySelector('.likes-count').textContent = data[index].likes;
         gallery.querySelector('.comments-count').textContent = data[index].comments.length;
       });

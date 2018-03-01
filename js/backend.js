@@ -30,7 +30,7 @@
     });
 
     xhr.addEventListener('error', function () {
-      onError(xhr.status);
+      onError('Произошла ошибка:' + xhr.status);
     });
 
     xhr.addEventListener('timeout', function () {
