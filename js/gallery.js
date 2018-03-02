@@ -1,6 +1,9 @@
 'use strict';
 
 (function () {
+  var FILTER_POPULAR = 'filter-popular';
+  var FILTER_DISCUSSED = 'filter-discussed';
+  var FILTER_RANDOM = 'filter-random';
   var filters = document.querySelector('.filters');
   var filtersBtn = filters.querySelectorAll('.filters-radio');
   var numberOfSortBtn = filtersBtn.length;
@@ -19,7 +22,7 @@
   };
 
   var sortTypes = function (type, data) {
-    if (type === 'filter-popular') {
+    if (type === FILTER_POPULAR) {
       return data.sort(function (a, b) {
         if (a.likes < b.likes) {
           return 1;
@@ -28,7 +31,7 @@
         }
         return a.comments.length - b.comments.length;
       });
-    } else if (type === 'filter-discussed') {
+    } else if (type === FILTER_DISCUSSED) {
       return data.sort(function (a, b) {
         if (a.comments.length < b.comments.length) {
           return 1;
@@ -37,7 +40,7 @@
         }
         return a.likes - b.likes;
       });
-    } else if (type === 'filter-random') {
+    } else if (type === FILTER_RANDOM) {
       return shuffle(data);
     }
     return pictures;
