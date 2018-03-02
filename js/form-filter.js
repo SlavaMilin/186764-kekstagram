@@ -2,6 +2,11 @@
 
 (function () {
   var EFFECT_PREFIX = 'effect-';
+  var FILTER_GRAYSCALE = 'grayscale';
+  var FILTER_SEPIA = 'sepia';
+  var FILTER_INVERT = 'invert';
+  var FILTER_BLUR = 'blur';
+  var FILTER_BRIGHTNESS = 'brightness';
 
   var uploadForm = document.querySelector('.upload-form');
   var effectsBtn = uploadForm.querySelectorAll('input[name="effect"]');
@@ -17,19 +22,19 @@
 
   var filters = {
     chrome: function (value) {
-      return 'grayscale(' + value / 100 + ')';
+      return FILTER_GRAYSCALE + '(' + value / 100 + ')';
     },
     sepia: function (value) {
-      return 'sepia(' + value / 100 + ')';
+      return FILTER_SEPIA + '(' + value / 100 + ')';
     },
     marvin: function (value) {
-      return 'invert(' + value + '%)';
+      return FILTER_INVERT + '(' + value + '%)';
     },
     phobos: function (value) {
-      return 'blur(' + (value / 100) * 3 + 'px)';
+      return FILTER_BLUR + '(' + (value / 100) * 3 + 'px)';
     },
     heat: function (value) {
-      return 'brightness(' + (value / 100) * 3 + ')';
+      return FILTER_BRIGHTNESS + '(' + (value / 100) * 3 + ')';
     }
   };
 
@@ -47,10 +52,9 @@
 
   var sliderToggler = function (status) {
     if (status) {
-      slider.classList.add('hidden');
-    } else {
-      slider.classList.remove('hidden');
+      return slider.classList.add('hidden');
     }
+    return slider.classList.remove('hidden');
   };
 
   var onFilterImgClick = function (evt) {
@@ -64,11 +68,12 @@
   };
 
   var onLineClick = function (clickEvt) {
+    clickEvt.preventDefault();
     setPinPosition(clickEvt.clientX);
   };
 
-  pin.addEventListener('mousedown', function () {
-
+  pin.addEventListener('mousedown', function (downEvt) {
+    downEvt.preventDefault();
     var onMouseMove = function (moveEvt) {
       setPinPosition(moveEvt.clientX);
     };

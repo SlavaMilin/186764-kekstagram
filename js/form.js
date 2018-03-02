@@ -9,7 +9,17 @@
   var mainPucture = uploadForm.querySelector('.effect-image-preview');
   var resizeControl = uploadForm.querySelector('.upload-resize-controls-value');
   var descrtiption = uploadForm.querySelector('.upload-form-description');
+  var slider = uploadForm.querySelector('.upload-effect-level');
   var numberOfPictures = 0;
+
+  var resetForm = function () {
+    uploadForm.reset();
+    uploadOverlay.classList.add('hidden');
+    slider.classList.add('hidden');
+    mainPucture.className = 'effect-image-preview';
+    mainPucture.style = '';
+    uploadInput.addEventListener('change', onUploadBtnChange);
+  };
 
   var onUploadBtnChange = function () {
     var errorNode = document.querySelector('.render-error');
@@ -39,26 +49,22 @@
 
   var onFormEscPress = function (evt) {
     if (evt.keyCode === window.CONSTANTS.escKeycode) {
-      uploadForm.reset();
-      uploadOverlay.classList.add('hidden');
-      uploadInput.addEventListener('change', onUploadBtnChange);
+      resetForm();
       window.removeEventListener('keydown', onFormEscPress);
     }
   };
 
   var onUploadCanselClick = function () {
-    uploadForm.reset();
-    uploadOverlay.classList.add('hidden');
-    uploadInput.addEventListener('change', onUploadBtnChange);
+    resetForm();
     uploadCansel.removeEventListener('click', onUploadCanselClick);
   };
 
   var onDescriptionFocus = function () {
     window.removeEventListener('keydown', onFormEscPress);
-    descrtiption.addEventListener('focusout', onDescriptionFucusOut);
+    descrtiption.addEventListener('focusout', onDescriptionFocusOut);
   };
 
-  var onDescriptionFucusOut = function () {
+  var onDescriptionFocusOut = function () {
     window.addEventListener('keydown', onFormEscPress);
   };
 

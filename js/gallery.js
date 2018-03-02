@@ -25,9 +25,8 @@
           return 1;
         } else if (a.likes > b.likes) {
           return -1;
-        } else {
-          return a.comments.length - b.comments.length;
         }
+        return a.comments.length - b.comments.length;
       });
     } else if (type === 'filter-discussed') {
       return data.sort(function (a, b) {
@@ -35,9 +34,8 @@
           return 1;
         } else if (a.comments.length > b.comments.length) {
           return -1;
-        } else {
-          return a.likes - b.likes;
         }
+        return a.likes - b.likes;
       });
     } else if (type === 'filter-random') {
       return shuffle(data);
